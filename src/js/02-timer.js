@@ -81,8 +81,15 @@ const minutes = addLeadingZero(Math.floor(((diference % day) % hour) / minute));
    timerSeconds.textContent = seconds;
  }
 
+ startBtn.addEventListener('click', () => {
+  timer.start();
+  startBtn.disabled = true
+   })
 
 
+
+
+   
 // class CountdownTimer {
 //   constructor({ onTick }) {
 //     this.intervalId = null;
@@ -139,10 +146,6 @@ const minutes = addLeadingZero(Math.floor(((diference % day) % hour) / minute));
 //   timerSeconds.textContent = seconds;
 // }
 
- startBtn.addEventListener('click', () => {
-timer.start();
-startBtn.disabled = true
- })
 
 // const timer = new CountdownTimer({
 //   onTick: updateClocktime,
