@@ -27,58 +27,58 @@ const options = {
 };
 flatpickr(chooseInput, options);
 
- const timer = {
-   intervalId: null,
-   countdownDate: null,
+  const timer = {
+  intervalId: null,
+  countdownDate: null,
 
-   start() {
+  start() {
      this.countdownDate = new Date(chooseInput.value).getTime();
      if (!this.countdownDate) {
-       return
+      return
      }
 startBtn.disabled = false
     this.intervalId = setInterval(() => {
-      const currentTime = new Date().getTime();
-     const diference = this.countdownDate - currentTime;
+    const currentTime = new Date().getTime();
+    const diference = this.countdownDate - currentTime;
 
-      const time = convertMs(diference);
-       console.log(time)
+    const time = convertMs(diference);
+    console.log(time)
 
-updateClocktime(time);
-// console.log(`${time.days}:${time.hours}:${time.minutes}:${time.seconds}`);
-}, 1000);
+    updateClocktime(time);
+     // console.log(`${time.days}:${time.hours}:${time.minutes}:${time.seconds}`);
+  }, 1000);
 
    },
 
  }
 
  function convertMs(diference) {
-   const second = 1000;
-   const minute = second * 60;
-   const hour = minute * 60;
-const day = hour * 24;
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
 
    // Remaining days
-   const days = addLeadingZero(Math.floor(diference / day));
+  const days = addLeadingZero(Math.floor(diference / day));
   // Remaining hours
-   const hours = addLeadingZero(Math.floor((diference % day) / hour));
+  const hours = addLeadingZero(Math.floor((diference % day) / hour));
    // Remaining minutes
-const minutes = addLeadingZero(Math.floor(((diference % day) % hour) / minute));
+  const minutes = addLeadingZero(Math.floor(((diference % day) % hour) / minute));
    // Remaining seconds
-   const seconds = addLeadingZero(Math.floor((((diference % day) % hour) % minute) / second));
+  const seconds = addLeadingZero(Math.floor((((diference % day) % hour) % minute) / second));
 
-   return { days, hours, minutes, seconds };
+  return { days, hours, minutes, seconds };
  }
 
  function addLeadingZero(value) {
-   return String(value).padStart(2, '0');
+  return String(value).padStart(2, '0');
  }
 
  function updateClocktime({ days, hours, minutes, seconds }) {
-   timerDays.textContent = days;
+  timerDays.textContent = days;
   timerHours.textContent = hours;
-   timerMinutes.textContent = minutes;
-   timerSeconds.textContent = seconds;
+  timerMinutes.textContent = minutes;
+  timerSeconds.textContent = seconds;
  }
 
  startBtn.addEventListener('click', () => {
