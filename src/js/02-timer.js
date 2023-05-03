@@ -25,65 +25,125 @@ const options = {
     }
   },
 };
-
-const timer = {
-  intervalId: null,
-  countdownDate: null,
-
-  start() {
-    this.countdownDate = new Date(chooseInput.value).getTime();
-    if (!this.countdownDate) {
-      return
-    }
-    startBtn.disabled = false
-    this.intervalId = setInterval(() => {
-      const currentTime = new Date().getTime();
-      const diference = !this.countdownDate - currentTime;
-
-      const time = convertMs(diference);
-      console.log(time)
-
-      updateClocktime(time);
-
-      // console.log(`${time.days}:${time.hours}:${time.minutes}:${time.seconds}`);
-    }, 1000);
-
-  },
-
-}
-
-function convertMs(diference) {
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  // Remaining days
-  const days = addLeadingZero(Math.floor(diference / day));
-  // Remaining hours
-  const hours = addLeadingZero(Math.floor((diference % day) / hour));
-  // Remaining minutes
-  const minutes = addLeadingZero(Math.floor(((diference % day) % hour) / minute));
-  // Remaining seconds
-  const seconds = addLeadingZero(Math.floor((((diference % day) % hour) % minute) / second));
-
-  return { days, hours, minutes, seconds };
-}
-
-function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
-}
-
 flatpickr(chooseInput, options);
 
-function updateClocktime({ days, hours, minutes, seconds }) {
-  timerDays.textContent = days;
-  timerHours.textContent = hours;
-  timerMinutes.textContent = minutes;
-  timerSeconds.textContent = seconds;
-}
+ const timer = {
+   intervalId: null,
+   countdownDate: null,
 
-startBtn.addEventListener('click', () => {
-  timer.start();
-  startBtn.disabled = true
-})
+   start() {
+     this.countdownDate = new Date(chooseInput.value).getTime();
+     if (!this.countdownDate) {
+       return
+     }
+startBtn.disabled = false
+    this.intervalId = setInterval(() => {
+      const currentTime = new Date().getTime();
+     const diference = this.countdownDate - currentTime;
+
+      const time = convertMs(diference);
+       console.log(time)
+
+updateClocktime(time);
+// console.log(`${time.days}:${time.hours}:${time.minutes}:${time.seconds}`);
+}, 1000);
+
+   },
+
+ }
+
+ function convertMs(diference) {
+   const second = 1000;
+   const minute = second * 60;
+   const hour = minute * 60;
+const day = hour * 24;
+
+   // Remaining days
+   const days = addLeadingZero(Math.floor(diference / day));
+  // Remaining hours
+   const hours = addLeadingZero(Math.floor((diference % day) / hour));
+   // Remaining minutes
+const minutes = addLeadingZero(Math.floor(((diference % day) % hour) / minute));
+   // Remaining seconds
+   const seconds = addLeadingZero(Math.floor((((diference % day) % hour) % minute) / second));
+
+   return { days, hours, minutes, seconds };
+ }
+
+ function addLeadingZero(value) {
+   return String(value).padStart(2, '0');
+ }
+
+ function updateClocktime({ days, hours, minutes, seconds }) {
+   timerDays.textContent = days;
+  timerHours.textContent = hours;
+   timerMinutes.textContent = minutes;
+   timerSeconds.textContent = seconds;
+ }
+
+
+
+// class CountdownTimer {
+//   constructor({ onTick }) {
+//     this.intervalId = null;
+//     this.onTick = onTick;
+//     this.countdownDate = null;
+//   }
+
+//   start() {
+//     this.countdownDate = new Date(chooseInput.value).getTime();
+//     if (!this.countdownDate) {
+//       return
+//     }
+//     startBtn.disabled = false
+//     this.intervalId = setInterval(() => {
+//       const currentTime = new Date().getTime();
+//       const diference = !this.countdownDate - this.currentTime;
+
+//       const time = this.convertMs(diference);
+//       console.log(time)
+
+//       this.onTick(time);
+//       // console.log(`${time.days}:${time.hours}:${time.minutes}:${time.seconds}`);
+//     }, 1000);
+//   }
+//   onTick(time) {}
+  
+//   convertMs(time) {
+//     const second = 1000;
+//     const minute = second * 60;
+//     const hour = minute * 60;
+//     const day = hour * 24;
+
+//     // Remaining days
+//     const days = this.addLeadingZero(Math.floor(diference / day));
+//     // Remaining hours
+//     const hours = this.addLeadingZero(Math.floor((diference % day) / hour));
+//     // Remaining minutes
+//     const minutes = this.addLeadingZero(Math.floor(((diference % day) % hour) / minute));
+//     // Remaining seconds
+//     const seconds = this.addLeadingZero(Math.floor((((diference % day) % hour) % minute) / second));
+
+//     return { days, hours, minutes, seconds };
+//   }
+//   addLeadingZero(value) {
+//     return String(value).padStart(2, '0');
+//   }
+
+// }
+
+// function updateClocktime({ days, hours, minutes, seconds }) {
+//   timerDays.textContent = days;
+//   timerHours.textContent = hours;
+//   timerMinutes.textContent = minutes;
+//   timerSeconds.textContent = seconds;
+// }
+
+ startBtn.addEventListener('click', () => {
+timer.start();
+startBtn.disabled = true
+ })
+
+// const timer = new CountdownTimer({
+//   onTick: updateClocktime,
+// })
