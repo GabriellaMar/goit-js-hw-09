@@ -23,7 +23,3 @@ stopBtn.addEventListener('click', () => {
   stopBtn.disabled = true;
   startBtn.disabled = false;
 })
-
-
-const a = 6
-console.log(a)

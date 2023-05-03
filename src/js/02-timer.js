@@ -10,6 +10,7 @@ const timerSeconds = document.querySelector('[data-seconds]');
 const startBtn = document.querySelector('[data-start]')
 
 startBtn.disabled = true
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -22,34 +23,31 @@ const options = {
     } else {
       Notiflix.Notify.failure('Please choose a date in the future');
     }
+  },
+};
+
+const timer = {
+  start() {
+    const countdownDate = new Date(chooseInput.value).getTime();
+    if (!countdownDate) {
+      return
+    }
+    startBtn.disabled = false
+    const countDate = setInterval(() => {
+      const currentTime = new Date().getTime();
+      const diference = countdownDate - currentTime;
+
+      const time = convertMs(diference);
+      console.log(time)
+
+      updateClocktime(time);
+
+      // console.log(`${time.days}:${time.hours}:${time.minutes}:${time.seconds}`);
+    }, 1000);
 
   },
 
-};
-flatpickr(chooseInput, options);
-
-
-
-startBtn.addEventListener('click', () => {
-  const countdownDate = new Date(chooseInput.value).getTime();
-
-  if (!countdownDate) {
-    return
-  }
-  startBtn.disabled = false
-  const countDate = setInterval(() => {
-    const currentTime = new Date().getTime();
-    const diference = countdownDate - currentTime;
-    const { days, hours, minutes, seconds } = convertMs(diference)
-
-    timerDays.textContent = days;
-    timerHours.textContent = hours;
-    timerMinutes.textContent = minutes;
-    timerSeconds.textContent = seconds;
-
-    console.log(`${days}: ${hours}: ${minutes}:${seconds}`)
-  }, 1000);
-})
+}
 
 function convertMs(diference) {
   const second = 1000;
@@ -73,4 +71,16 @@ function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
+flatpickr(chooseInput, options);
 
+function updateClocktime({ days, hours, minutes, seconds }) {
+  timerDays.textContent = days;
+  timerHours.textContent = hours;
+  timerMinutes.textContent = minutes;
+  timerSeconds.textContent = seconds;
+}
+
+startBtn.addEventListener('click', () => {
+  timer.start();
+  startBtn.disabled = true
+})
