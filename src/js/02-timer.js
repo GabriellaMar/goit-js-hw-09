@@ -27,15 +27,18 @@ const options = {
 };
 
 const timer = {
+  intervalId: null,
+  countdownDate: null,
+
   start() {
-    const countdownDate = new Date(chooseInput.value).getTime();
-    if (!countdownDate) {
+    this.countdownDate = new Date(chooseInput.value).getTime();
+    if (!this.countdownDate) {
       return
     }
     startBtn.disabled = false
-    const countDate = setInterval(() => {
+    this.intervalId = setInterval(() => {
       const currentTime = new Date().getTime();
-      const diference = countdownDate - currentTime;
+      const diference = !this.countdownDate - currentTime;
 
       const time = convertMs(diference);
       console.log(time)
@@ -82,5 +85,6 @@ function updateClocktime({ days, hours, minutes, seconds }) {
 
 startBtn.addEventListener('click', () => {
   timer.start();
+  startBtn.remove
   startBtn.disabled = true
 })
