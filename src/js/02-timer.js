@@ -85,6 +85,5 @@ function updateClocktime({ days, hours, minutes, seconds }) {
 
 startBtn.addEventListener('click', () => {
   timer.start();
-  startBtn.remove
   startBtn.disabled = true
 })
