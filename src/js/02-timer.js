@@ -87,8 +87,6 @@ startBtn.disabled = false
    })
 
 
-
-
    
 // class CountdownTimer {
 //   constructor({ onTick }) {
