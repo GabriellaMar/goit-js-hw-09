@@ -27,124 +27,142 @@ const options = {
 };
 flatpickr(chooseInput, options);
 
-  const timer = {
+const timer = {
   intervalId: null,
-  countdownDate: null,
+  futureDate: null,
 
   start() {
-     this.countdownDate = new Date(chooseInput.value).getTime();
-     if (!this.countdownDate) {
+    this.futureDate = new Date(chooseInput.value).getTime();
+    if (!this.futureDate) {
       return
-     }
-startBtn.disabled = false
+    }
+    startBtn.disabled = false
     this.intervalId = setInterval(() => {
-    const currentTime = new Date().getTime();
-    const diference = this.countdownDate - currentTime;
+      const currentTime = new Date().getTime();
+      const diference = this.futureDate - currentTime;
 
-    const time = convertMs(diference);
-    console.log(time)
+      if (diference <= 0) {
+        clearInterval(this.intervalId);
+        return
+      }
+      const time = convertMs(diference);
+      console.log(time)
 
-    updateClocktime(time);
-     // console.log(`${time.days}:${time.hours}:${time.minutes}:${time.seconds}`);
-  }, 1000);
+      updateClocktime(time);
+      // console.log(`${time.days}:${time.hours}:${time.minutes}:${time.seconds}`);
+    }, 1000);
+  },
+}
 
-   },
-
- }
-
- function convertMs(diference) {
+function convertMs(diference) {
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
-
-   // Remaining days
+  
   const days = addLeadingZero(Math.floor(diference / day));
-  // Remaining hours
   const hours = addLeadingZero(Math.floor((diference % day) / hour));
-   // Remaining minutes
   const minutes = addLeadingZero(Math.floor(((diference % day) % hour) / minute));
-   // Remaining seconds
   const seconds = addLeadingZero(Math.floor((((diference % day) % hour) % minute) / second));
 
   return { days, hours, minutes, seconds };
- }
+}
 
- function addLeadingZero(value) {
+function addLeadingZero(value) {
   return String(value).padStart(2, '0');
- }
+}
 
- function updateClocktime({ days, hours, minutes, seconds }) {
+function updateClocktime({ days, hours, minutes, seconds }) {
   timerDays.textContent = days;
   timerHours.textContent = hours;
   timerMinutes.textContent = minutes;
   timerSeconds.textContent = seconds;
- }
-
- startBtn.addEventListener('click', () => {
+}
+startBtn.addEventListener('click', () => {
   timer.start();
   startBtn.disabled = true
-   })
+})
 
 
-   
+
+
+//////===============через клас=================
+// const options = {
+//   enableTime: true,
+//   time_24hr: true,
+//   defaultDate: new Date(),
+//   onClose(selectedDates) {
+//     const pickedDate = selectedDates[0];
+//     if (pickedDate && pickedDate > new Date()) {
+//       startBtn.disabled = false;
+//     } else {
+//       Notiflix.Notify.failure('Please choose a date in the future');
+//     }
+//   },
+// };
+
+// flatpickr(chooseInput, options);
+
 // class CountdownTimer {
-//   constructor({ onTick }) {
+//   constructor(futureDate) {
+//     this.futureDate = new Date(futureDate).getTime();
 //     this.intervalId = null;
-//     this.onTick = onTick;
-//     this.countdownDate = null;
 //   }
 
 //   start() {
-//     this.countdownDate = new Date(chooseInput.value).getTime();
-//     if (!this.countdownDate) {
-//       return
+//     if (!this.futureDate) {
+//       return;
 //     }
-//     startBtn.disabled = false
+//     startBtn.disabled = true;
+
 //     this.intervalId = setInterval(() => {
-//       const currentTime = new Date().getTime();
-//       const diference = !this.countdownDate - this.currentTime;
+//       const currentTime = Date.now();
+//       const difference = this.futureDate - currentTime;
+//     if(diference <=0){
+//       clearInterval(this.intervalId);
+//     return
+//    }
 
-//       const time = this.convertMs(diference);
-//       console.log(time)
-
-//       this.onTick(time);
-//       // console.log(`${time.days}:${time.hours}:${time.minutes}:${time.seconds}`);
+//       const { days, hours, minutes, seconds } = this.convertMs(difference);
+//       this.updateClocktime({ days, hours, minutes, seconds });
+//       console.log(`${days}:${hours}:${minutes}:${seconds}`);
 //     }, 1000);
 //   }
-//   onTick(time) {}
-  
-//   convertMs(time) {
+
+//   convertMs(ms) {
 //     const second = 1000;
 //     const minute = second * 60;
 //     const hour = minute * 60;
 //     const day = hour * 24;
 
 //     // Remaining days
-//     const days = this.addLeadingZero(Math.floor(diference / day));
+//     const days = this.addLeadingZero(Math.floor(ms / day));
 //     // Remaining hours
-//     const hours = this.addLeadingZero(Math.floor((diference % day) / hour));
+//     const hours = this.addLeadingZero(Math.floor((ms % day) / hour));
 //     // Remaining minutes
-//     const minutes = this.addLeadingZero(Math.floor(((diference % day) % hour) / minute));
+//     const minutes = this.addLeadingZero(Math.floor(((ms % day) % hour) / minute));
 //     // Remaining seconds
-//     const seconds = this.addLeadingZero(Math.floor((((diference % day) % hour) % minute) / second));
+//     const seconds = this.addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
 
 //     return { days, hours, minutes, seconds };
 //   }
+
 //   addLeadingZero(value) {
 //     return String(value).padStart(2, '0');
 //   }
 
+
+//   updateClocktime({ days, hours, minutes, seconds }) {
+//     timerDays.textContent = days;
+//     timerHours.textContent = hours;
+//     timerMinutes.textContent = minutes;
+//     timerSeconds.textContent = seconds;
+//   }
 // }
 
-// function updateClocktime({ days, hours, minutes, seconds }) {
-//   timerDays.textContent = days;
-//   timerHours.textContent = hours;
-//   timerMinutes.textContent = minutes;
-//   timerSeconds.textContent = seconds;
-// }
+// startBtn.addEventListener('click', () => {
+//   const timer = new CountdownTimer(chooseInput.value);
+//   timer.start();
+//   startBtn.disabled = true;
+// });
 
-
-// const timer = new CountdownTimer({
-//   onTick: updateClocktime,
-// })
